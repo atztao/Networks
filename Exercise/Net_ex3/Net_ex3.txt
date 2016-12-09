@@ -18,7 +18,7 @@
 
 $$N\frac{\partial P(k,t)}{\partial x}=\frac{1}{\left \langle f(x) \right \rangle}\left [ -f(x)P(k,t)+f(k-1)P(k-1,t) \right ]+\frac{1}{\bar k}\left [  -kP(k,t)+(k+1)P(k+1,t)\right ]$$
 
-当t\rightarrow \infty : $$f(k)=\frac{(k+1)P(k+1)}{P(k)}\frac{\left \langle f(x) \right \rangle}{\bar k}$$
+当t\rightarrow \infty 得到稳定时的特解 : $$f(k)=\frac{(k+1)P(k+1)}{P(k)}\frac{\left \langle f(x) \right \rangle}{\bar k}$$
 
 分离变量: $P(k,t)=P(k)P(t)$,将P(t)看成对P(k)的一个比例系数作用量。将上式带入原式，并用上式化简得到：
 
@@ -29,17 +29,17 @@ $$\dot{P(t)} - (\frac{1}{N\left \langle f(k) \right \rangle}f(k-1)\frac{P(k-1)}{
 得到$$P(k)=[\frac{\bar k }{\left \langle f(k) \right \rangle}]^{k}k^{-\lambda }$$
 
 带入上式得到：
-$$\dot P(t) -\frac{1}{N}\frac{1-\lambda }{\bar k}P(t)=0$$
+$$\dot P(t) +\frac{1}{N}\frac{\lambda }{\bar k}P(t)=0$$
 
 其中$$k = 2L / N $$
 
 带入得到：
 
-$$\dot P(t) -\frac{1-\lambda }{2L}P(t)=0$$
+$$\dot P(t) +\frac{\lambda }{2L}P(t)=0$$
 
-令 $$\alpha = \frac{1-\lambda }{2L}$$
+令 $$\alpha = \frac{\lambda }{2L}$$
 
-则有 $$\dot P(t) - \alpha P(t) =0$$
+则有 $$\dot P(t) + \alpha P(t) =0$$
 
 即问题化为对一阶线性常微分方程进数值求解。
 
