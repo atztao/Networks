@@ -1,0 +1,6 @@
+* Keyworks
+undirected directed 无向 有向
+equilibrium 平衡网络
+resilience against random breakdowns 对随机故障的抵抗力
+
+
