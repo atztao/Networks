@@ -16,13 +16,13 @@
 
 * 化简
 
-$$N\frac{\partial P(k,t)}{\partial x}=\frac{1}{\left \langle f(x) \right \rangle}\left [ -f(x)P(k,t)+f(k-1)P(k-1,t) \right ]+\frac{1}{\bar k}\left [  -kP(k,t)+(k+1)P(k+1,t)\right ]$$
-
-当t\rightarrow \infty 得到稳定时的特解 : $$f(k)=\frac{(k+1)P(k+1)}{P(k)}\frac{\left \langle f(x) \right \rangle}{\bar k}$$
+$$N\frac{\partial P(k,t)}{\partial x}=\frac{1}{\left \langle f(x) \right \rangle}\left [ -f(x)P(k,t)+f(k-1)P(k-1,t) \right ]+\frac{1}{\bar k}\left [  -kP(k,t)+(k+1)P(k+1,t)\right ]$$\\
 
 分离变量: $P(k,t)=P(k)P(t)$,将P(t)看成对P(k)的一个比例系数作用量。将上式带入原式，并用上式化简得到：
 
 $$\dot{P(t)} - (\frac{1}{N\left \langle f(k) \right \rangle}f(k-1)\frac{P(k-1)}{P(k)}-\frac{k}{N \bar k})P(t)=0$$
+
+当t\rightarrow \infty 得到稳定时的特解 : $$f(k)=\frac{(k+1)P(k+1)}{P(k)}\frac{\left \langle f(x) \right \rangle}{\bar k}$$
 
 现在给定$$f(k)= k + 1 - \lambda$$
 
@@ -31,7 +31,7 @@ $$\dot{P(t)} - (\frac{1}{N\left \langle f(k) \right \rangle}f(k-1)\frac{P(k-1)}{
 带入上式得到：
 $$\dot P(t) +\frac{1}{N}\frac{\lambda }{\bar k}P(t)=0$$
 
-其中$$k = 2L / N $$
+其中$$\bar k = 2L / N $$
 
 带入得到：
 
@@ -41,7 +41,19 @@ $$\dot P(t) +\frac{\lambda }{2L}P(t)=0$$
 
 则有 $$\dot P(t) + \alpha P(t) =0$$
 
+解此方程得到 $$P(t) = C_0 e^{-\alpha t}$$
+
+考虑到$$P(k,t)=p(k)\cdot p(t)=[\frac{\bar k }{\left \langle f(k) \right \rangle}]^{k}k^{-\lambda } \cdot C_0 e^{-\alpha t}$$
+
+其中$$\mu = \frac{\bar k }{\left \langle f(k) \right
+  \rangle} < 1$$
+
+此式：$$P(k,t)=p(k)\cdot p(t)=\mu^{k}k^{-\lambda } \cdot C_0 e^{-\alpha t}$$
+
+令 \mu = 0.2 \lambda = 1 \alpha = 0.5 C_0 = 1
+
 即问题化为对一阶线性常微分方程进数值求解。
+
 
 * Python数值解
 

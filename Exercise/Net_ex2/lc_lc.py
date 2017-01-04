@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# This code is the home work of networkx ,SW-smallworld ：Version 3.2
 
 import networkx as nx
 import numpy as np
@@ -34,9 +33,9 @@ p = [1,
 for i in range(len(p)):
     l_avg_list = []
     c_avg_list = []
-    for j in range(20):
+    for j in range(20):  # 平均化处理
         l_average = nx.average_shortest_path_length(
-            nx.watts_strogatz_graph(1000, 10, p[i])) / l_average_max
+            nx.watts_strogatz_graph(1000, 10, p[i])) / l_average_max  # 归一化处理
         c_average = nx.average_clustering(
             nx.watts_strogatz_graph(1000, 10, p[i])) / c_average_max
         l_avg_list.append(l_average)
@@ -44,12 +43,12 @@ for i in range(len(p)):
     l_average_list.append(float(sum(l_avg_list) / len(l_avg_list)))
     c_average_list.append(float(sum(c_avg_list) / len(c_avg_list)))
 
-print l_average_list
-print c_average_list
+print (l_average_list)
+print (c_average_list)
 
 plt.xlabel(r"$p$")
 plt.semilogx(p, l_average_list, label=r"$L(p) / L(0)$",
-             color="blue", linewidth=0, marker='o')
+             color="blue", linewidth=0, marker='o')  # 对横坐标作对数处理
 plt.semilogx(p, c_average_list, label=r"$C(p) / C(0)$",
              color="red", linewidth=0, marker='o')
 plt.legend()  # make legend

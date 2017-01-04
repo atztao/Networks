@@ -13,11 +13,10 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 G = nx.random_graphs.erdos_renyi_graph(N,p)  
-pos = nx.shell_layout(G)        
-nx.draw(G,pos,with_labels=False,node_size = 30) 
-plt.savefig("G.png")     
+plt.figure(3, figsize=(12, 12), dpi=720)
+nx.draw_circular(G, with_labels=False, node_size=30)
+plt.savefig("G.png")
 plt.show()
-
 #+END_SRC
 
 ** G.png
