@@ -1,0 +1,97 @@
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [bigger]
+#+COLUMNS: %45ITEM %10BEAMER_ENV(Env) %10BEAMER_ACT(Act) %4BEAMER_COL(Col) %8BEAMER_OPT(Opt)
+
+#+LATEX_HEADER: \usepackage{xeCJK,fontspec}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setsansfont{Helvetica}
+#+LATEX_HEADER: \setmonofont{Courier New}
+#+LATEX_HEADER: \setCJKmainfont{simsun.ttc} %宋体
+#+LATEX_HEADER: \setCJKsansfont{msyh.ttf} %微软雅黑
+#+LATEX_HEADER: \setCJKmonofont{FZYTK.ttf} %方正姚体
+
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{/home/zhangtao/Dropbox/Template/background-ppt.png}}
+
+#+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usemintedstyle{vs}
+
+#+TITLE: Global Topology Of Networks -6.1
+#+AUTHOR: zhangtao \ ztao1991@gmail.com 
+#+OPTIONS: H:1 toc:nil num:t
+
+* 
+1. What the network looks like
+2. Search in networks
+3. Average shortest-path length
+4. Birth of the giant component
+5. Core of a net
+6. Distribution of finite connected components
+
+* 
+
+#+CAPTION: 
+#+LABEL: fig:BoxplotFlowering
+#+ATTR_LaTeX: width=4cm
+file:_image/graphs5.png
+
+* 
+the distribution of the number of connections of a randowmly chosen end vertex of a randomly chosen edge:
+
+$$\frac{kP(k)}{\bar{k}}$$
+
+* 
+
+$$C = \sum_{k_1,k_2} \frac{k_1P(k_1)}{\bar{k}} \frac{k_2P(k_2)}{\bar{k}} \frac{(k_1-1)(k_2-1)}{N\bar{k}} $$
+$$ = \frac{\bar{k}}{N}\frac{(<k^2> - \bar{k})^2}{\bar{k}^2} \eqno{(6.1)} $$
+
+* 
+the average degree of a randowmly chosen end vertex of a randomly chosen edge:\\
+
+$$\sum_{k}k\frac{kP(k)}{\bar{k}}=\frac{<k^2>}{\bar{k}} \eqno{(6.2)}$$
+
+* 
+
+the average number of the second-nearest neighbours of a vertex:
+
+$$z_2 = <k^2> - \bar{k} \eqno{(6.3)}$$
+
+* 
+In a finite net,the degree distribution has a cut-off.The special case of the power-law degree distribution.(m of the moment):
+$$k_{cut} \sim k_0^mN^{(m-1)/(\gamma-1)-(\gamma-2)/(\gamma-1)} \eqno{(6.4)} $$
+
+\gamma < 3:
+$$z_2 \cong <k^2> \sim k_0^2N^{(3-\gamma )/(\gamma-1 )} $$
+
+\gamma = 3:
+$$z_2 \cong <k^2> \approx k_0^2 \ln N$$
+
+* 
+
+$$C = \frac{z_2^2}{Nz_1^3} \eqno{(6.6)}$$
+
+* 
+$$C \sim k_0N^{(7-3 \gamma)/(\gamma -1)} \eqno{(6.7)}$$
+
+* 
+#+CAPTION: 
+#+LABEL: fig:BoxplotFlowering
+#+ATTR_LaTeX: width=4cm
+file:_image/graphs6.png
+
+* 
+$$t_s(N) = \sim \frac{1}{\bar k}N^2(\gamma -2)(\gamma -1)$$
+
+* 
+$$z_n = (\frac{z_2}{z_1})^{n-1}z_1$$
+$$z_1 +z_1(z_2/z_1)^2+...+z_1(z_2/z_1)^{\bar l -1} \sim N_G \sim N$$
+$$\bar l \approx \frac{ln(N/z_1)+ln[(z_2-z_1)/z_1]}{ln(z_2/z_1)}$$
+
+Reference:1+\sum_{n=1}^{\bar l}z_m = N(Newman,Storgatz,and Watts 2001)
+
+* 
+$$z_2 > z_1$$
+
+* 
+$$W = 1 - \sum_{k=0}^{\infty}P(k)x^k$$
+$$x=\sum_{k=0}^{\infty}\frac{kP(k)}{\bar k}x^{k-1}$$

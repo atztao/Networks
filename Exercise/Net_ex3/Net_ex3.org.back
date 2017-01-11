@@ -1,0 +1,70 @@
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_HEADER: \setCJKmainfont{WenQuanYi Micro Hei}
+#+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usemintedstyle{emacs}
+#+LATEX_HEADER_EXTRA:  \usepackage{mdframed}
+#+LATEX_HEADER_EXTRA: \BeforeBeginEnvironment{minted}{\begin{mdframed}}
+#+LATEX_HEADER_EXTRA: \AfterEndEnvironment{minted}{\end{mdframed}}
+#+LaTeX_HEADER: \newminted{common-lisp}{fontsize=\footnotesize}
+
+#+OPTIONS: ^:nil _:nil f:nil toc:nil num:t
+#+TITLE: 求解方程的数值解    
+#+AUTHOR: zhangtao   
+#+EMAIL: ztao1991@gmail.com     
+#+DATE: 
+
+
+* 化简
+
+$$N\frac{\partial P(k,t)}{\partial x}=\frac{1}{\left \langle f(x) \right \rangle}\left [ -f(x)P(k,t)+f(k-1)P(k-1,t) \right ]+\frac{1}{\bar k}\left [  -kP(k,t)+(k+1)P(k+1,t)\right ]$$
+
+当t\rightarrow \infty : $$f(k)=\frac{(k+1)P(k+1)}{P(k)}\frac{\left \langle f(x) \right \rangle}{\bar k}$$
+
+分离变量: $P(k,t)=P(k)P(t)$,将P(t)看成对P(k)的一个比例系数作用量。将上式带入原式，并用上式化简得到：
+
+$$\dot{P(t)} - (\frac{1}{N\left \langle f(k) \right \rangle}f(k-1)\frac{P(k-1)}{P(k)}-\frac{k}{N \bar k})P(t)=0$$
+
+现在给定$$f(k)= k + 1 - \lambda$$
+
+得到$$P(k)=[\frac{\bar k }{\left \langle f(k) \right \rangle}]^{k}k^{-\lambda }$$
+
+带入上式得到：
+$$\dot P(t) -\frac{1}{N}\frac{1-\lambda }{\bar k}P(t)=0$$
+
+其中$$k = 2L / N $$
+
+带入得到：
+
+$$\dot P(t) -\frac{1-\lambda }{2L}P(t)=0$$
+
+令 $$\alpha = \frac{1-\lambda }{2L}$$
+
+则有 $$\dot P(t) - \alpha P(t) =0$$
+
+即问题化为对一阶线性常微分方程进数值求解。
+
+* Python数值解
+
+#+BEGIN_SRC python
+from scipy.integrate import odeint
+import numpy as np
+
+def Net(P, t ):
+    a = 0.5
+    return -a*P
+
+t = linspace(0.0,1000,1000)
+
+y = odeint(Net,1,t)
+
+plot(t,y)
+xlabel('t')
+ylabel('P(t)')
+show()
+
+#+END_SRC
+
+[[file:~/Dropbox/Networks/Exercise/Net_ex3/P_t.png]]
+
+* 小结 
+可知随着时间的演变P(t)对P(k)的作用越来越小。
