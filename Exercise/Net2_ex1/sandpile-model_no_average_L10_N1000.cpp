@@ -27,18 +27,18 @@ int main()
         //int sandpile_number = 100;
         ////每次多增加10粒沙子
         //sandpile_number = sandpile_number + 10;
-        
+
         //每次增加一粒沙子
         sandpile_number ++;
- 
-        //初始化数组
+
+        //实验开始
+        //初始化状态数
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                sandpile_A[i][j] = 0;
-                sandpile_B[i][j] = 0;
                 status[i][j] = 0;
             }
         }
+
 
         //添加沙粒sandpile_number
         for (int N = 0; N < sandpile_number; N++) { 
