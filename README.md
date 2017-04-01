@@ -10,8 +10,7 @@ This Repository About The Doc And Exercise Of Netwroks.
 3. Networks Exercise 3 In 12.2 Version 1.0
 
 ### 2016-2017-2
-4. Sandpile Model At 2017-04-01 Version 1.04
+1. Sandpile Model At 2017-04-01 Version 1.04
 
 ## Todo
 
-1. 
