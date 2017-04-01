@@ -2,31 +2,37 @@
  "Global_Topology_of_Networks"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("beamer" "bigger")))
+                     '(("beamer" "oneside" "A4paper" "12pt")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem")))
+                     '(("xeCJK" "SlantFont" "BoldFont") ("hyphenat" "none") ("overpic" "abs") ("fncychap" "Lenny") ("rotating" "figuresright") ("ulem" "normalem")))
    (TeX-run-style-hooks
     "latex2e"
     "beamer"
-    "beamer10"
-    "inputenc"
-    "fontenc"
-    "fixltx2e"
-    "graphicx"
-    "longtable"
-    "float"
-    "wrapfig"
+    "beamer12"
+    "xeCJK"
+    "hyphenat"
+    "overpic"
+    "fncychap"
     "rotating"
+    "capt-of"
+    "amssymb"
     "ulem"
+    "wrapfig"
+    "grffile"
+    "booktabs"
+    "tabularx"
     "amsmath"
     "textcomp"
-    "marvosym"
-    "wasysym"
-    "amssymb"
-    "hyperref"
-    "minted"
-    "xeCJK"
-    "fontspec")
+    "fancyhdr"
+    "tikz"
+    "longtable"
+    "float"
+    "geometry"
+    "xunicode"
+    "indentfirst"
+    "fontspec"
+    "listings"
+    "xcolor")
    (LaTeX-add-labels
     "fig:BoxplotFlowering")))
 

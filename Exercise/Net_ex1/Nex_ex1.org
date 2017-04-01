@@ -1,5 +1,19 @@
+#+LATEX_CLASS: org-article
+#+LATEX_CLASS_OPTIONS: [oneside,A4paper,12pt]
+#+LATEX_HEADER_EXTRA:
+#+LaTeX_HEADER: \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+#+LaTeX_HEADER: \graphicspath{{pic/}}
+#+LaTeX_HEADER: \hypersetup{colorlinks,linkcolor=black,filecolor=black,urlcolor=blue,citecolor=black}
+#+LaTeX_HEADER: \setcounter{secnumdepth}{4}
+#+LaTeX_HEADER: \titleformat{\paragraph}{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+#+LaTeX_HEADER: \linespread{1.2}
+
+#+OPTIONS: ^:nil _:nil f:nil toc:nil num:t
+
 #+TITLE: Networks Exercise 1 In 11.4 Version 1.2
-#+OPTIONS: toc:nil
+#+AUTHOR: zhangtao \\ ztao1991@gmail.com \\ github.com/ztao1991
+#+DATE: \today
+
 
 * Graph-N=10,p=0.5
 

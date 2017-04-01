@@ -1,14 +1,8 @@
-#+LATEX_HEADER: \usepackage{xeCJK}
-#+LATEX_HEADER: \setCJKmainfont{WenQuanYi Micro Hei}
-#+LaTeX_CLASS_OPTIONS: [a4paper]
-#+LaTeX_HEADER: \usepackage{minted}
-#+LaTeX_HEADER: \usemintedstyle{emacs}
-
-#+LATEX_HEADER_EXTRA:  \usepackage{mdframed}
-#+LATEX_HEADER_EXTRA: \BeforeBeginEnvironment{minted}{\begin{mdframed}}
-#+LATEX_HEADER_EXTRA: \AfterEndEnvironment{minted}{\end{mdframed}}
-
+#+LATEX_CLASS: org-article
+#+LATEX_CLASS_OPTIONS: [oneside,A4paper,12pt]
+#+LATEX_HEADER_EXTRA:
 #+OPTIONS: ^:nil _:nil f:nil toc:nil num:t
+
 #+TITLE: Networks Exercise 2 In 11.18 Version 3.2
 #+AUTHOR: zhangtao   
 #+EMAIL: ztao1991@gmail.com     
