@@ -30,7 +30,7 @@ plt.xlabel(r"$S$")
 plt.ylabel(r"$D(S)$")
 plt.loglog(S,P /100000000,'.b')
 #plt.plot(S,P /100000)
-plt.savefig("sandpile_model_S.tif")
+plt.savefig("sandpile_model_S.png")
 plt.show()
 # #S = np.array[S]
 
@@ -63,6 +63,6 @@ plt.xlabel(r"$T$")
 plt.ylabel(r"$D(S)$")
 plt.loglog(S2,P2 /100000000,'.b')
 #plt.plot(S,P /100000)
-plt.savefig("sandpile_model_T.tif")
+plt.savefig("sandpile_model_T.png")
 plt.show()
 # #S = np.array[S]

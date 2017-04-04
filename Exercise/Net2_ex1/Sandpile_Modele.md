@@ -41,10 +41,10 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
 
 # 源代码
 ## 模拟计算（C++）
-[sandpile-model.cpp](https://github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/sandpile-model_version0.2.cpp)
+[sandpile-model.cpp](https://github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp)
 
 ## 数据处理（Python）
-[plot_sandpile_model_txt.py](http://www.url.com)
+[plot_sandpile_model_txt.py](https://github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/plot_sandpile_model_txt.py)
 
 # 输出
 <!--![pic alt](figure_1-2.png "Sandpile-Model_S")-->
