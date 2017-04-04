@@ -13,6 +13,7 @@ int main()
 {
     int sandpile_A[10][10],sandpile_B[10][10]; //定义两个数组进行对称交换——使得其能同时更新-一个判断一个计算更新
     int status[10][10];//扩散状态——当雪崩扩散至此时为1状态标记否则为0
+    int sandpile_x,sandpile_y;
     //int state[10];//雪崩状态——N次实验发生雪崩的概率——状态0 or 1
     int sizes[20];//雪崩的大小S——对N次雪崩的规模进行统计
     int data_s[100];//存储不同规模下雪崩大小的数据
@@ -44,13 +45,15 @@ int main()
             }
 
             //添加沙粒sandpile_number
-            for (int N = 0; N < sandpile_number; N++) { 
-                int sandpile_x,sandpile_y;
-                sandpile_x = random(0,9); // [a,b] rand()%(b-a+1)+a；
-                sandpile_y = random(0,9);
-                sandpile_A[sandpile_x][sandpile_y]++; //也可乘以2或更多
+            for (int N = 0; N < sandpile_number; N++) {
+                    sandpile_x = random(0,99); // [a,b] rand()%  (b-a+1)+a；
+                    sandpile_y = random(0,99);
+                cout << sandpile_x << ":"<< sandpile_x;
+                sandpile_A[sandpile_x][sandpile_y]++; //也>  可乘以2或更多
                 sandpile_B[sandpile_x][sandpile_y]++;
+
             }
+
 
             //            for (int x = 0; x < 10; x++) {
             //                for (int y = 0; y < 10; y++) {
