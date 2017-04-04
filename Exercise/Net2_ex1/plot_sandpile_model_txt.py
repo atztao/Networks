@@ -48,11 +48,11 @@ S2 = []
 P2 = []
 
 for i in range(len(lines2)):
-    S.append(int(lines2[i][0]))
-    P.append(int(lines2[i][1]))
+    S2.append(int(lines2[i][0]))
+    P2.append(int(lines2[i][1]))
 
-S = np.asarray(S2)    
-P = np.asarray(P2)
+S2 = np.asarray(S2)    
+P2 = np.asarray(P2)
 
 # for i in range(len(P)):
 #     P[i] = P[i] / 100000

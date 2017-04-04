@@ -58,6 +58,15 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
     </p>
 </div>
 
+<div style="text-align:center;margin-top:20px">
+    <img src="sandpile-model_T_1000000.png"/>
+    <p>
+    <font size="4" face="Helvetica">
+        <b></b>
+    </font>
+    </p>
+</div>
+
 # 小结
 
 <!--Markdown-->
