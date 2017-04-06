@@ -1,3 +1,13 @@
+/*-----------------------------------------------------
+Name:Sandpile-Model
+Description:This Program Simulate Sandpile Model Since It Has Self-Organized Criticality.
+Author:ztao1991@gmail.com
+Date:2017/04/04
+Version:1.0.1
+Github:github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp
+Cpp-Styleguide Form :http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/
+-----------------------------------------------------*/
+
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
@@ -259,4 +269,3 @@ int main()
 
     return 0;
 }
-
