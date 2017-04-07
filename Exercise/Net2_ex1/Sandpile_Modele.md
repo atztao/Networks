@@ -37,7 +37,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
 # 沙堆模型
 # 实验步骤
 # 实验规模
-\\( L^2 = 100 \cdot 100;N = 1000000 \\)
+\\( L^2 = 100 \cdot 100;N = 10000000 \\)
 
 # 源代码
 ## 模拟计算（C++）
@@ -48,9 +48,18 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
 
 # 输出
 <!--![pic alt](figure_1-2.png "Sandpile-Model_S")-->
+<div style="text-align:center;margin-top:20px">
+    <img src="sandpile_model_N_1000000.png"/>
+    <p>
+    <font size="4" face="Helvetica">
+        <b></b>
+    </font>
+    </p>
+</div>
+
 
 <div style="text-align:center;margin-top:20px">
-    <img src="figure_1-2.png"/>
+    <img src="sandpile_model_S_10000000.png"/>
     <p>
     <font size="4" face="Helvetica">
         <b></b>
@@ -59,7 +68,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
 </div>
 
 <div style="text-align:center;margin-top:20px">
-    <img src="sandpile-model_T_1000000.png"/>
+    <img src="sandpile_model_T_10000000.png"/>
     <p>
     <font size="4" face="Helvetica">
         <b></b>
