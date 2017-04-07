@@ -5,7 +5,7 @@ Author:ztao1991@gmail.com
 Date:2017/04/04
 Version:1.0.1
 Github:github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp
-Cpp-Style Form :http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/
+Cpp-Styleguide Form :http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/
 -----------------------------------------------------*/
 
 #include <iostream>
@@ -19,7 +19,6 @@ Cpp-Style Form :http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-
 #define random(a,b) (rand()%(b-a+1)+a)
 
 using namespace std;
-
 int main()
 {
     //记录其随T的变化当存在雪崩时则为1否则为0
@@ -33,9 +32,9 @@ int main()
     //扩散状态——当雪崩扩散至此时为1状态标记否则为0
     int status[100][100];  
     //存储不同规模下雪崩大小的数据     
-    int data_s[100000000];  
+    int data_s[10000000];  
     //记录每次实验T的大小
-    int data_t[100000000]; 
+    int data_t[10000000]; 
 
     //初始化数组每格沙子为0
     for (int i = 0; i < 100; i++) {
@@ -46,7 +45,7 @@ int main()
     }
 
     //每次加sandpile_number粒沙子重复次数
-    for (int Add = 0; Add < 100000000; Add++) {
+    for (int Add = 0; Add < 10000000; Add++) {
 
         //实验开始---------------------------------------
         //初始化状态
@@ -238,13 +237,13 @@ int main()
 
     //统计S的频率
     map <int,int> data_s_s;
-    for (int i = 0; i < 100000000; ++i) {
+    for (int i = 0; i < 10000000; ++i) {
         ++data_s_s[data_s[i]]; 
     }
 
     //统计T的频率
     map <int,int> data_t_t;
-    for (int i = 0; i < 100000000; ++i) {
+    for (int i = 0; i < 10000000; ++i) {
         ++data_t_t[data_t[i]]; 
     }
 
