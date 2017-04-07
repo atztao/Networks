@@ -61,7 +61,13 @@ int main()
             }
         }
 
-        //随机添加沙粒sandpile_number
+         for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 100; j++) {
+                status_others[i][j] = 0;
+            }
+        }
+
+       //随机添加沙粒sandpile_number
         //for (int N = 0; N < sandpile_number; N++) {
             //srand(time(NULL));//初始化随机数发生器
             sandpile_x = random(0,99); // [a,b] rand()%(b-a+1)+a；
