@@ -24,14 +24,17 @@ int main()
 {
     //记录其随T的变化当存在雪崩时则为1否则为0
     std::vector< int > state; 
+   //std::vector< int > height;
     //每次增加N-1粒沙子
-    int sandpile_number = 2;
+    //int sandpile_number = 2;
     //随机加沙的坐标
     int sandpile_x,sandpile_y; 
     //定义两个数组进行对称交换——使得其能同时更新-一个判断雪崩一个计算更新
     int sandpile_A[100][100],sandpile_B[100][100];
     //扩散状态——当雪崩扩散至此时为1状态标记否则为0
-    int status[100][100];  
+    int status[100][100];
+    //记录沙堆的高度,寻求稳定态
+    int data_n[100000000];
     //存储不同规模下雪崩大小的数据     
     int data_s[100000000];  
     //记录每次实验T的大小
@@ -57,13 +60,15 @@ int main()
         }
 
         //随机添加沙粒sandpile_number
-        for (int N = 0; N < sandpile_number; N++) {
+        //for (int N = 0; N < sandpile_number; N++) {
             //srand(time(NULL));//初始化随机数发生器
             sandpile_x = random(0,99); // [a,b] rand()%(b-a+1)+a；
             sandpile_y = random(0,99);
             sandpile_A[sandpile_x][sandpile_y]++; //也可乘以2或更多
             sandpile_B[sandpile_x][sandpile_y]++; 
-        }
+        //}
+
+        //TODO 此前应该判断到达稳定态与否再统计
 
         //弛豫时间T
         for (unsigned long T = 0; T < 1000000000000000; T++) { 
@@ -86,7 +91,7 @@ int main()
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+2;
                                 status[x][y+1] = 1;
                                 status[x+1][y] = 1;
                             }
@@ -95,7 +100,7 @@ int main()
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+2;
                                 status[x][y-1] = 1;
                                 status[x+1][y] = 1;
                             }
@@ -105,7 +110,7 @@ int main()
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+1;
                                 status[x][y+1] = 1;
                                 status[x][y-1] = 1;
                                 status[x+1][y] = 1;
@@ -117,7 +122,7 @@ int main()
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+2;
                                 status[x][y+1] = 1;
                                 status[x-1][y] = 1;
                             }
@@ -126,7 +131,7 @@ int main()
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] +  1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+2;
                                 status[x][y-1] = 1;
                                 status[x-1][y] = 1;
 
@@ -137,7 +142,7 @@ int main()
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+1;
                                 status[x][y+1] = 1;
                                 status[x][y-1] = 1;
                                 status[x-1][y] = 1;
@@ -150,7 +155,7 @@ int main()
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] - 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] - 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+1;
                                 status[x][y+1] = 1;
                                 status[x-1][y] = 1;
                                 status[x+1][y] = 1;
@@ -164,7 +169,7 @@ int main()
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] - 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] - 1;
 
-                                status[x][y] = 1;
+                                status[x][y] = 1+1;
                                 status[x][y-1] = 1;
                                 status[x-1][y] = 1;
                                 status[x+1][y] = 1;
@@ -208,9 +213,7 @@ int main()
             if (Number == 10000) {
                 state.push_back(0);
                 break; 
-            } else {
-                state.push_back(1);
-            }
+            } else state.push_back(1);
         }
 
         //实验结束------------------------------------------
@@ -223,7 +226,16 @@ int main()
             }
         }
 
+        //计算沙粒的总和
+        int sum_sand = 0;
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
+                sum_sand = sum_sand + sandpile_A[i][j];
+            }
+        }
+
         //写入数据
+        data_n[Add] = sum_sand;
         data_s[Add] = size;
         //计算T大小
         data_t[Add] = accumulate(state.begin() , state.end(),0);
@@ -248,7 +260,16 @@ int main()
         ++data_t_t[data_t[i]]; 
     }
 
-    //分别将数组写入Txt文件
+    //分别将数组写入Txt文件    
+    ofstream file3("sandpile-model_N.txt");
+    if (file3.is_open())
+    {
+        for (int i = 0; i < 100000000; ++i) {
+            file3 << data_n[i] << "\n";
+        }
+        file3.close();
+    } else cout << "Unable to open file";
+
     ofstream file1("sandpile-model_S.txt");
     if (file1.is_open())
     {
