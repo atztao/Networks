@@ -33,6 +33,8 @@ int main()
     int sandpile_A[100][100],sandpile_B[100][100];
     //扩散状态——当雪崩扩散至此时为1状态标记否则为0
     int status[100][100];
+    //扩散在边界的状态计数在内
+    int status_others[4][100];
     //记录沙堆的高度,寻求稳定态
     int data_n[100000000];
     //存储不同规模下雪崩大小的数据     
@@ -91,18 +93,22 @@ int main()
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1+2;
+                                status[x][y] = 1;
                                 status[x][y+1] = 1;
                                 status[x+1][y] = 1;
+                                status_others[0][0] = 1;
+                                status_others[3][99] = 1;
                             }
                             if (y == 99) {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1+2;
+                                status[x][y] = 1;
                                 status[x][y-1] = 1;
                                 status[x+1][y] = 1;
+                                status_others[0][99] = 1;
+                                status_others[1][0] = 1;
                             }
                             else {
                                 sandpile_B[x][y] = sandpile_B[x][y] -4;
@@ -110,10 +116,11 @@ int main()
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1+1;
+                                status[x][y] = 1;
                                 status[x][y+1] = 1;
                                 status[x][y-1] = 1;
                                 status[x+1][y] = 1;
+                                status_others[0][y] = 1;
                             }
                         }
                         if (x == 99 ) {
@@ -122,19 +129,22 @@ int main()
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
 
-                                status[x][y] = 1+2;
+                                status[x][y] = 1;
                                 status[x][y+1] = 1;
                                 status[x-1][y] = 1;
+                                status_others[2][99] = 1;
+                                status_others[3][0] = 1;
                             }
                             if (y == 99) {
                                 sandpile_B[x][y] = sandpile_B[x][y] -4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] +  1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
 
-                                status[x][y] = 1+2;
+                                status[x][y] = 1;
                                 status[x][y-1] = 1;
                                 status[x-1][y] = 1;
-
+                                status_others[1][99] = 1;
+                                status_others[2][0] = 1;
                             }
                             else {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
@@ -142,10 +152,11 @@ int main()
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
 
-                                status[x][y] = 1+1;
+                                status[x][y] = 1;
                                 status[x][y+1] = 1;
                                 status[x][y-1] = 1;
                                 status[x-1][y] = 1;
+                                status_others[2][y] = 1; 
                             }
                         }
                         if (y == 0) {
@@ -155,11 +166,11 @@ int main()
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] - 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] - 1;
 
-                                status[x][y] = 1+1;
+                                status[x][y] = 1;
                                 status[x][y+1] = 1;
                                 status[x-1][y] = 1;
                                 status[x+1][y] = 1;
-
+                                status_others[3][x] = 1;
                             }
                         }
                         if (y == 99) {
@@ -169,10 +180,11 @@ int main()
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] - 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] - 1;
 
-                                status[x][y] = 1+1;
+                                status[x][y] = 1;
                                 status[x][y-1] = 1;
                                 status[x-1][y] = 1;
                                 status[x+1][y] = 1;
+                                status_others[1][x] = 1;
                             }
                         }
                         else {
@@ -225,6 +237,15 @@ int main()
                 size = size + status[i][j];
             }
         }
+
+        int size_other = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 100; j++) {
+                size_other = size_other + status_others[i][j];
+            }
+        }
+
+        size = size + size_other;
 
         //计算沙粒的总和
         int sum_sand = 0;
