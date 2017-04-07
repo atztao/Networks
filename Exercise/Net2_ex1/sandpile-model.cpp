@@ -35,12 +35,12 @@ int main()
     int status[100][100];
     //扩散在边界的状态计数在内
     int status_others[4][100];
-    //记录沙堆的高度,寻求稳定态
-    int data_n[100000000];
+    //记录沙堆的高度,寻求稳定态 N=20000开始趋于稳定
+    //int data_n[10000000];
     //存储不同规模下雪崩大小的数据     
-    int data_s[100000000];  
+    int data_s[10000000];  
     //记录每次实验T的大小
-    int data_t[100000000]; 
+    int data_t[10000000]; 
 
     //初始化数组每格沙子为0
     for (int i = 0; i < 100; i++) {
@@ -51,7 +51,7 @@ int main()
     }
 
     //每次加sandpile_number粒沙子重复次数
-    for (int Add = 0; Add < 100000000; Add++) {
+    for (int Add = 0; Add < 10000000; Add++) {
 
         //实验开始---------------------------------------
         //初始化状态
@@ -76,7 +76,7 @@ int main()
             sandpile_B[sandpile_x][sandpile_y]++; 
         //}
 
-        //TODO 此前应该判断到达稳定态与否再统计
+        //此前应该判断到达稳定态与否再统计N=20500
 
         //弛豫时间T
         for (unsigned long T = 0; T < 1000000000000000; T++) { 
@@ -260,12 +260,18 @@ int main()
                 sum_sand = sum_sand + sandpile_A[i][j];
             }
         }
+        //data_n[Add] = sum_sand;
 
-        //写入数据
-        data_n[Add] = sum_sand;
-        data_s[Add] = size;
-        //计算T大小
-        data_t[Add] = accumulate(state.begin() , state.end(),0);
+        //到达稳定态时开始统计
+        if (sum_sand > 20500 ) {
+            //写入数据
+            data_s[Add] = size;
+            //计算T大小
+            data_t[Add] = accumulate(state.begin() , state.end(),0);
+        } else {
+            data_s[Add] = 0;
+            data_t[Add] = 0;
+        }
 
         //释放内存:清除容器并最小化它的容量
         //cout << "-2-" << state.capacity();
@@ -277,25 +283,25 @@ int main()
 
     //统计S的频率
     map <int,int> data_s_s;
-    for (int i = 0; i < 100000000; ++i) {
+    for (int i = 0; i < 10000000; ++i) {
         ++data_s_s[data_s[i]]; 
     }
 
     //统计T的频率
     map <int,int> data_t_t;
-    for (int i = 0; i < 100000000; ++i) {
+    for (int i = 0; i < 10000000; ++i) {
         ++data_t_t[data_t[i]]; 
     }
 
     //分别将数组写入Txt文件    
-    ofstream file3("sandpile-model_N.txt");
-    if (file3.is_open())
-    {
-        for (int i = 0; i < 100000000; ++i) {
-            file3 << data_n[i] << "\n";
-        }
-        file3.close();
-    } else cout << "Unable to open file";
+    // ofstream file3("sandpile-model_N.txt");
+    // if (file3.is_open())
+    // {
+    //     for (int i = 0; i < 10000000; ++i) {
+    //         file3 << data_n[i] << "\n";
+    //     }
+    //     file3.close();
+    // } else cout << "Unable to open file";
 
     ofstream file1("sandpile-model_S.txt");
     if (file1.is_open())
