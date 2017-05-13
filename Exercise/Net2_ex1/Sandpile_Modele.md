@@ -41,6 +41,8 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
 
 # 源代码
 ## 模拟计算（C++）
+[sandpile-model-N.cpp](https://github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp)
+
 [sandpile-model.cpp](https://github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp)
 
 ## 数据处理（Python）

@@ -1,5 +1,6 @@
 [Dolphin]
-Timestamp=2017,4,7,9,16,44
+SortRole=type
+Timestamp=2017,4,10,14,28,7
 Version=3
 ViewMode=1
 VisibleRoles=Details_text,Details_size,Details_date,Details_type,CustomizedDetails

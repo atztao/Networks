@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./sandpile-model

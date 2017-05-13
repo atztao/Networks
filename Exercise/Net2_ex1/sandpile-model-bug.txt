@@ -1,0 +1,5 @@
+Some Problem At S=2 and 3.The P is low.
+- When sandpile_x = 0 sandpile_y = 0 Is Good. So May be This role ..
+- 是否与规则无关
+- 是否与网格的形状无关
+- 是否与每个坐标出现的概率有关
