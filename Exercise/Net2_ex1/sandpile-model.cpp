@@ -24,7 +24,6 @@ int main()
 {
     srand((unsigned int) time(NULL));  
     //记录其随T的变化当存在雪崩时则为1否则为0
-    std::vector< int > state; 
     //std::vector< int > height;
     //每次增加N-1粒沙子
     //int sandpile_number = 2;
@@ -33,7 +32,6 @@ int main()
     //定义两个数组进行对称交换——使得其能同时更新-一个判断雪崩一个计算更新
     int sandpile_A[10][10],sandpile_B[10][10];
     //扩散状态——当雪崩扩散至此时为1状态标记否则为0
-    int status[10][10];
     //存储不同规模下雪崩大小的数据     
     std::vector<int> data_s;  
     //记录每次实验T的大小
@@ -48,25 +46,23 @@ int main()
     }
 
     //每次加sandpile_number粒沙子重复次数
-    for (int Add = 0; Add < 10000; Add++) {
+    for (int Add = 0; Add < 1000000; Add++) {
+      
+        //记录雪崩的规模
+        int Avalanche = 0;
+        //弛豫记录时间长度
+        int Time = 0;
 
         //实验开始---------------------------------------
-        //初始化状态
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                status[i][j] = 0;
-            }
-        }
-
 
         //随机添加沙粒sandpile_number
         //for (int N = 0; N < sandpile_number; N++) {
         //srand(time(NULL));//初始化随机数发生器
 
-        // sandpile_x = random(0,99); // [a,b] rand()%(b-a+1)+a；
-        // sandpile_y = random(0,99);
-        sandpile_x = 0;
-        sandpile_y = 0;
+        sandpile_x = random(0,9); // [a,b] rand()%(b-a+1)+a；
+        sandpile_y = random(0,9);
+        // sandpile_x = 0;
+        // sandpile_y = 0;
         sandpile_A[sandpile_x][sandpile_y]++; //也可乘以2或更多
         sandpile_B[sandpile_x][sandpile_y]++; 
         //}
@@ -90,18 +86,12 @@ int main()
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x+0][y] = 1;
                             }
                             else if(y == 9) {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1;
-                                status[x][y-1] = 1;
-                                status[x+1][y] = 1;
                             }
 
                             else {
@@ -110,10 +100,6 @@ int main()
                                 sandpile_B[x][y-2] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x][y-1] = 1;
-                                status[x+1][y] = 1;
                             }
                         }
                         else if (x == 9) {
@@ -121,30 +107,18 @@ int main()
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x-1][y] = 1;
                             }
                             else if (y == 9) {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
 
-                                status[x][y] = 1;
-                                status[x][y-1] = 1;
-                                status[x-1][y] = 1;
                             }
                             else {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x][y-1] = 1;
-                                status[x-1][y] = 1;
                             }
                         }
                         else if (y == 0 && x != 0 && x != 9) {
@@ -153,10 +127,6 @@ int main()
                             sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
                             sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                            status[x][y] = 1;
-                            status[x][y+1] = 1;
-                            status[x-1][y] = 1;
-                            status[x+1][y] = 1;
                         }
                         else if (y == 9 && x != 0 && x != 9) {
                             sandpile_B[x][y] = sandpile_B[x][y] - 4;
@@ -164,10 +134,6 @@ int main()
                             sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
                             sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
 
-                            status[x][y] = 1;
-                            status[x][y-1] = 1;
-                            status[x-1][y] = 1;
-                            status[x+1][y] = 1;
                         }
                         else {
                             sandpile_B[x][y] = sandpile_B[x][y] - 4;
@@ -175,12 +141,6 @@ int main()
                             sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                             sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
                             sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
-
-                            status[x][y] = 1;
-                            status[x][y+1] = 1;
-                            status[x][y-1] = 1;
-                            status[x-1][y] = 1;
-                            status[x+1][y] = 1;
                         }
                     } else Number++;
                 }
@@ -195,36 +155,23 @@ int main()
 
             //当没有雪崩或雪崩结束时跳出循环
             if (Number == 100) {
-                state.push_back(0);
+                Time = T - 1;
                 break; 
-            } else state.push_back(1);
+            } else Avalanche = Avalanche + 100 - Number;
         }
 
         //实验结束------------------------------------------
 
         //到达稳定态时开始计算统计 Sandpile Steady State
-        if ( Add > 400000 ) {
+        if ( Add > 200000 ) {
             //计算雪崩规模S
-            int size = 0;
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    size = size + status[i][j];
-                }
-            }
-
-            data_s.push_back(size);
+            data_s.push_back(Avalanche);
             //计算T大小
-            data_t.push_back(accumulate(state.begin() , state.end(),0));
+            data_t.push_back(Time);
 
             data_s.shrink_to_fit();
             data_t.shrink_to_fit();
         }
-
-        //cout << "-2-" << state.capacity();
-        state.clear();
-        state.shrink_to_fit();
-        //vector<int>().swap( state );
-        //cout << "-3-" << state.capacity();
     }  
 
     //统计S的频率
