@@ -46,7 +46,7 @@ int main()
     }
 
     //每次加sandpile_number粒沙子重复次数
-    for (int Add = 0; Add < 50000; Add++) {
+    for (int Add = 0; Add < 1000000; Add++) {
         //记录雪崩的规模
         int Avalanche = 0;
 

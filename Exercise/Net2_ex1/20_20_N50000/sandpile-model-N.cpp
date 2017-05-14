@@ -31,7 +31,7 @@ int main()
     }
 
     //每次加sandpile_number粒沙子重复次数
-    for (int Add = 0; Add < 50000; Add++) {
+    for (int Add = 0; Add < 100000; Add++) {
 
         //实验开始---------------------------------------
 

@@ -164,9 +164,9 @@ int main()
 
         //到达稳定态时开始计算统计 Sandpile Steady State
         if ( Add > 200000 ) {
-            //计算雪崩规模S
+            //Save Avalanche
             data_s.push_back(Avalanche);
-            //计算T大小
+            //Save Time
             data_t.push_back(Time);
 
             data_s.shrink_to_fit();

@@ -1,43 +1,26 @@
 /*-----------------------------------------------------
-Name:Sandpile-Model
-Description:This Program Simulate Sandpile Model Since It Has Self-Organized Criticality.
-Author:ztao1991@gmail.com
+Name:Sandpile-Model-N
+Description:This Program Get The Sandpile Model -When To Arrive At Steady State.
+Author:ztao1491@gmail.com
 Date:2017/04/04
 Version:1.0.1
-Github:github.com/ztao1991/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp
+Github:github.com/ztao1490/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp
 Cpp-Style Form :http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/
 -----------------------------------------------------*/
 #include <iostream>
-#include <vector>
-#include <stdlib.h>
-#include <time.h>
 #include <fstream>
-#include <numeric>
-//#include <algorithm>
-#include <map>
-//#include <unordered_map>
 #define random(a,b) (rand()%(b-a+1)+a)
 
 using namespace std;
 
 int main()
 {
-    srand((unsigned int) time(NULL));  
-    //记录其随T的变化当存在雪崩时则为1否则为0
-    std::vector< int > state; 
-    //std::vector< int > height;
-    //每次增加N-1粒沙子
-    //int sandpile_number = 2;
     //随机加沙的坐标
     int sandpile_x,sandpile_y; 
-    //定义两个数组进行对称交换——使得其能同时更新-一个判断雪崩一个计算更新
+//定义两个数组进行对称交换——使得其能同时更新-一个判断雪崩一个计算更新
     int sandpile_A[10][10],sandpile_B[10][10];
-    //扩散状态——当雪崩扩散至此时为1状态标记否则为0
-    int status[10][10];
-    //存储不同规模下雪崩大小的数据     
-    std::vector<int> data_s;  
-    //记录每次实验T的大小
-    std::vector<int> data_t; 
+    //记录沙堆的高度,寻求稳定态 N=20000开始趋于稳定
+    int data_N[1000000];
 
     //初始化数组每格沙子为0
     for (int i = 0; i < 10; i++) {
@@ -48,34 +31,24 @@ int main()
     }
 
     //每次加sandpile_number粒沙子重复次数
-    for (int Add = 0; Add < 10000; Add++) {
+    for (int Add = 0; Add < 1000000; Add++) {
 
         //实验开始---------------------------------------
-        //初始化状态
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                status[i][j] = 0;
-            }
-        }
-
 
         //随机添加沙粒sandpile_number
         //for (int N = 0; N < sandpile_number; N++) {
         //srand(time(NULL));//初始化随机数发生器
-
-        // sandpile_x = random(0,99); // [a,b] rand()%(b-a+1)+a；
-        // sandpile_y = random(0,99);
-        sandpile_x = 0;
-        sandpile_y = 0;
+        sandpile_x = random(0,9); // [a,b] rand()%(b-a+1)+a；
+        sandpile_y = random(0,9);
+        // sandpile_x = 0;
+        // sandpile_y = 0;
         sandpile_A[sandpile_x][sandpile_y]++; //也可乘以2或更多
         sandpile_B[sandpile_x][sandpile_y]++; 
         //}
 
-        //此前应该判断到达稳定态与否再统计N=20100
-
         //弛豫时间T
-        for (unsigned long T = 0; T < 10000000000000; T++) { 
-            //判断是否存在雪崩Number == 100则不存在否则有
+        for (unsigned long T = 0; T < 100000000000000; T++) { 
+            //判断是否存在雪崩Number == 1000则不存在否则有
             int Number = 0;
 
             //遍历所有格子判断是否雪崩
@@ -89,85 +62,48 @@ int main()
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x+0][y] = 1;
                             }
-                            else if(y == 9) {
+                            else if (y == 9) {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y-1] = 1;
-                                status[x+1][y] = 1;
                             }
-
                             else {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
-                                sandpile_B[x][y-2] = sandpile_B[x][y-1] + 1;
+                                sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x][y-1] = 1;
-                                status[x+1][y] = 1;
                             }
                         }
-                        else if (x == 9) {
+                        else if (x == 9 ) {
                             if (y == 0) {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x-1][y] = 1;
                             }
                             else if (y == 9) {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y-1] = 1;
-                                status[x-1][y] = 1;
                             }
                             else {
                                 sandpile_B[x][y] = sandpile_B[x][y] - 4;
                                 sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                                 sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
                                 sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
-
-                                status[x][y] = 1;
-                                status[x][y+1] = 1;
-                                status[x][y-1] = 1;
-                                status[x-1][y] = 1;
                             }
                         }
                         else if (y == 0 && x != 0 && x != 9) {
-                            sandpile_B[x][y] = sandpile_B[x][y] - 4;
-                            sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
-                            sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
-                            sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
-
-                            status[x][y] = 1;
-                            status[x][y+1] = 1;
-                            status[x-1][y] = 1;
-                            status[x+1][y] = 1;
+                                sandpile_B[x][y] = sandpile_B[x][y] - 4;
+                                sandpile_B[x][y+1] = sandpile_B[x][y+1] + 1;
+                                sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
+                                sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
                         }
                         else if (y == 9 && x != 0 && x != 9) {
-                            sandpile_B[x][y] = sandpile_B[x][y] - 4;
-                            sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
-                            sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
-                            sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
-
-                            status[x][y] = 1;
-                            status[x][y-1] = 1;
-                            status[x-1][y] = 1;
-                            status[x+1][y] = 1;
+                                sandpile_B[x][y] = sandpile_B[x][y] - 4;
+                                sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
+                                sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
+                                sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
                         }
                         else {
                             sandpile_B[x][y] = sandpile_B[x][y] - 4;
@@ -175,12 +111,6 @@ int main()
                             sandpile_B[x][y-1] = sandpile_B[x][y-1] + 1;
                             sandpile_B[x-1][y] = sandpile_B[x-1][y] + 1;
                             sandpile_B[x+1][y] = sandpile_B[x+1][y] + 1;
-
-                            status[x][y] = 1;
-                            status[x][y+1] = 1;
-                            status[x][y-1] = 1;
-                            status[x-1][y] = 1;
-                            status[x+1][y] = 1;
                         }
                     } else Number++;
                 }
@@ -194,69 +124,29 @@ int main()
             }
 
             //当没有雪崩或雪崩结束时跳出循环
-            if (Number == 100) {
-                state.push_back(0);
-                break; 
-            } else state.push_back(1);
+            if (Number == 100) break; 
         }
-
         //实验结束------------------------------------------
 
-        //到达稳定态时开始计算统计 Sandpile Steady State
-        if ( Add > 400000 ) {
-            //计算雪崩规模S
-            int size = 0;
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    size = size + status[i][j];
-                }
+        //计算沙粒的总和
+        int Sum_Sand = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                Sum_Sand = Sum_Sand + sandpile_A[i][j];
             }
-
-            data_s.push_back(size);
-            //计算T大小
-            data_t.push_back(accumulate(state.begin() , state.end(),0));
-
-            data_s.shrink_to_fit();
-            data_t.shrink_to_fit();
         }
 
-        //cout << "-2-" << state.capacity();
-        state.clear();
-        state.shrink_to_fit();
-        //vector<int>().swap( state );
-        //cout << "-3-" << state.capacity();
+        data_N[Add] = Sum_Sand;
     }  
 
-    //统计S的频率
-    map <int,int> data_s_s;
-    for (size_t i = 0; i < data_s.size() ; ++i) {
-        ++data_s_s[data_s[i]]; 
-    }
-
-    //统计T的频率
-    map <int,int> data_t_t;
-    for (size_t i = 0; i < data_t.size() ; ++i) {
-        ++data_t_t[data_t[i]]; 
-    }
-
     //分别将数组写入Txt文件    
-    ofstream file1("sandpile-model_S.txt");
-    if (file1.is_open())
+    ofstream file3("sandpile-model_N.txt");
+    if (file3.is_open())
     {
-        using iterator = map< int, int >::iterator;
-        for ( iterator iter = data_s_s.begin(); iter != data_s_s.end(); ++iter  )
-            file1 << iter->first << ":" << iter->second << '\n';
-        //cout << "-" << data_p[i];
-        file1.close();
-    } else cout << "Unable to open file";
-
-    ofstream file2("sandpile-model_T.txt");
-    if (file2.is_open())
-    {
-        using iterator = map< int, int >::iterator;
-        for ( iterator iter = data_t_t.begin(); iter != data_t_t.end(); ++iter  )
-            file2 << iter->first << ":" << iter->second << '\n';
-        file2.close();
+        for (int i = 0; i < 1000000; ++i) {
+            file3 << data_N[i] << "\n";
+        }
+        file3.close();
     } else cout << "Unable to open file";
 
     //Python 处理后期数据
