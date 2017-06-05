@@ -1,5 +1,4 @@
 #+LATEX_CLASS: org-beamer
-#+LATEX_CLASS_OPTIONS: [oneside,A4paper,12pt]
 
 #+TITLE: Global Topology Of Networks -6.1
 #+AUTHOR: zhangtao \ ztao1991@gmail.com 
