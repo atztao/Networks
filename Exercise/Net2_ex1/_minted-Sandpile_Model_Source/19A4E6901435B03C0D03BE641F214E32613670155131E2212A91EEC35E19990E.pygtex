@@ -1,0 +1,157 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{Name:Sandpile\PYGZhy{}Model\PYGZhy{}N}
+\PYG{c+cm}{Description:This Program Get The Sandpile Model \PYGZhy{}When To Arrive At Steady State.}
+\PYG{c+cm}{Author:ztao1491@gmail.com}
+\PYG{c+cm}{Date:2017/04/04}
+\PYG{c+cm}{Version:1.0.1}
+\PYG{c+cm}{Github:github.com/ztao1490/Networks/blob/master/Exercise/Net2\PYGZus{}ex1/sandpile\PYGZhy{}model.cpp}
+\PYG{c+cm}{Cpp\PYGZhy{}Style Form :http://zh\PYGZhy{}google\PYGZhy{}styleguide.readthedocs.io/en/latest/google\PYGZhy{}cpp\PYGZhy{}styleguide/}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}iostream\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}fstream\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}define random(a,b) (rand()\PYGZpc{}(b\PYGZhy{}a+1)+a)}
+
+\PYG{k}{using} \PYG{k}{namespace} \PYG{n}{std}\PYG{p}{;}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{()}
+\PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{//随机加沙的坐标}
+    \PYG{k+kt}{int} \PYG{n}{sandpile\PYGZus{}x}\PYG{p}{,}\PYG{n}{sandpile\PYGZus{}y}\PYG{p}{;}
+\PYG{c+c1}{//定义两个数组进行对称交换——使得其能同时更新\PYGZhy{}一个判断雪崩一个计算更新}
+    \PYG{k+kt}{int} \PYG{n}{sandpile\PYGZus{}A}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{][}\PYG{l+m+mi}{10}\PYG{p}{],}\PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{][}\PYG{l+m+mi}{10}\PYG{p}{];}
+    \PYG{c+c1}{//记录沙堆的高度,寻求稳定态 N=20000开始趋于稳定}
+    \PYG{k+kt}{int} \PYG{n}{data\PYGZus{}N}\PYG{p}{[}\PYG{l+m+mi}{1000000}\PYG{p}{];}
+
+    \PYG{c+c1}{//初始化数组每格沙子为0}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n}{sandpile\PYGZus{}A}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+            \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{//每次加sandpile\PYGZus{}number粒沙子重复次数}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{Add} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{Add} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{1000000}\PYG{p}{;} \PYG{n}{Add}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+
+        \PYG{c+c1}{//实验开始\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+        \PYG{c+c1}{//随机添加沙粒sandpile\PYGZus{}number}
+        \PYG{c+c1}{//for (int N = 0; N \PYGZlt{} sandpile\PYGZus{}number; N++) \PYGZob{}}
+        \PYG{c+c1}{//srand(time(NULL));//初始化随机数发生器}
+        \PYG{n}{sandpile\PYGZus{}x} \PYG{o}{=} \PYG{n}{random}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{);} \PYG{c+c1}{// [a,b] rand()\PYGZpc{}(b\PYGZhy{}a+1)+a；}
+        \PYG{n}{sandpile\PYGZus{}y} \PYG{o}{=} \PYG{n}{random}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{);}
+        \PYG{c+c1}{// sandpile\PYGZus{}x = 0;}
+        \PYG{c+c1}{// sandpile\PYGZus{}y = 0;}
+        \PYG{n}{sandpile\PYGZus{}A}\PYG{p}{[}\PYG{n}{sandpile\PYGZus{}x}\PYG{p}{][}\PYG{n}{sandpile\PYGZus{}y}\PYG{p}{]}\PYG{o}{++}\PYG{p}{;} \PYG{c+c1}{//也可乘以2或更多}
+        \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{sandpile\PYGZus{}x}\PYG{p}{][}\PYG{n}{sandpile\PYGZus{}y}\PYG{p}{]}\PYG{o}{++}\PYG{p}{;}
+        \PYG{c+c1}{//\PYGZcb{}}
+
+        \PYG{c+c1}{//弛豫时间T}
+        \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{unsigned} \PYG{k+kt}{long} \PYG{n}{T} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{T} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{100000000000000}\PYG{p}{;} \PYG{n}{T}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{c+c1}{//判断是否存在雪崩Number == 1000则不存在否则有}
+            \PYG{k+kt}{int} \PYG{n}{Number} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+            \PYG{c+c1}{//遍历所有格子判断是否雪崩}
+            \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{x} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{x}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{y} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{y} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{y}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                    \PYG{c+c1}{//格子x,y存在雪崩}
+                    \PYG{k}{if} \PYG{p}{(}\PYG{n}{sandpile\PYGZus{}A}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{3}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{c+c1}{//处理边界情况}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{x} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{p}{)} \PYG{p}{\PYGZob{}}
+                            \PYG{k}{if} \PYG{p}{(}\PYG{n}{y} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{p}{\PYGZcb{}}
+                            \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{y} \PYG{o}{==} \PYG{l+m+mi}{9}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{p}{\PYGZcb{}}
+                            \PYG{k}{else} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{p}{\PYGZcb{}}
+                        \PYG{p}{\PYGZcb{}}
+                        \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{x} \PYG{o}{==} \PYG{l+m+mi}{9} \PYG{p}{)} \PYG{p}{\PYGZob{}}
+                            \PYG{k}{if} \PYG{p}{(}\PYG{n}{y} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{p}{\PYGZcb{}}
+                            \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{y} \PYG{o}{==} \PYG{l+m+mi}{9}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{p}{\PYGZcb{}}
+                            \PYG{k}{else} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{p}{\PYGZcb{}}
+                        \PYG{p}{\PYGZcb{}}
+                        \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{y} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{9}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                        \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{y} \PYG{o}{==} \PYG{l+m+mi}{9} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{9}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                                \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                        \PYG{k}{else} \PYG{p}{\PYGZob{}}
+                            \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{4}\PYG{p}{;}
+                            \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                            \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                    \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{n}{Number}\PYG{o}{++}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+            \PYG{p}{\PYGZcb{}}
+
+            \PYG{c+c1}{//将B同步到A再对A进行遍历}
+            \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                    \PYG{n}{sandpile\PYGZus{}A}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{n}{sandpile\PYGZus{}B}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{];}
+                \PYG{p}{\PYGZcb{}}
+            \PYG{p}{\PYGZcb{}}
+
+            \PYG{c+c1}{//当没有雪崩或雪崩结束时跳出循环}
+            \PYG{k}{if} \PYG{p}{(}\PYG{n}{Number} \PYG{o}{==} \PYG{l+m+mi}{100}\PYG{p}{)} \PYG{k}{break}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{c+c1}{//实验结束\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+        \PYG{c+c1}{//计算沙粒的总和}
+        \PYG{k+kt}{int} \PYG{n}{Sum\PYGZus{}Sand} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{Sum\PYGZus{}Sand} \PYG{o}{=} \PYG{n}{Sum\PYGZus{}Sand} \PYG{o}{+} \PYG{n}{sandpile\PYGZus{}A}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{];}
+            \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{n}{data\PYGZus{}N}\PYG{p}{[}\PYG{n}{Add}\PYG{p}{]} \PYG{o}{=} \PYG{n}{Sum\PYGZus{}Sand}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{//分别将数组写入Txt文件}
+    \PYG{n}{ofstream} \PYG{n}{file3}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}sandpile\PYGZhy{}model\PYGZus{}N.txt\PYGZdq{}}\PYG{p}{);}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{file3}\PYG{p}{.}\PYG{n}{is\PYGZus{}open}\PYG{p}{())}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{1000000}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n}{file3} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{data\PYGZus{}N}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n}{file3}\PYG{p}{.}\PYG{n}{close}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{n}{cout} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+s}{\PYGZdq{}Unable to open file\PYGZdq{}}\PYG{p}{;}
+
+    \PYG{c+c1}{//Python 处理后期数据}
+
+    \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
