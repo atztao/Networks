@@ -3,7 +3,7 @@ Name:Sandpile-Model-N
 Description:This Program Get The Sandpile Model -When To Arrive At Steady State.
 Author:ztao1491@gmail.com
 Date:2017/04/04
-Version:1.0.1
+liVersion:1.0.1
 Github:github.com/ztao1490/Networks/blob/master/Exercise/Net2_ex1/sandpile-model.cpp
 Cpp-Style Form :http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/
 -----------------------------------------------------*/
