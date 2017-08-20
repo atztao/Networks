@@ -5,27 +5,33 @@ Has Self-Organized Criticality.
 Author:ztao1991@gmail.com
 Date:2017/06/12
 Version:1.0
-"""
+""""colorscheme desert
+"set background =dark
+
 
 import random
 # import numpy as np
 import matplotlib.pyplot as plt
 from collections import Counter
+# from timeit import timeit
+import time
 
 N = 10
 
-# 定义网格的大小并初始化为0
+# 定义网格的大小和形状并初始化为0,SOC应该与网格的形状是无关的
 sandpile_A = [[0 for i in range(N)] for j in range(N)]
 sandpile_B = [[0 for i in range(N)] for j in range(N)]
 # print(sandpile_A)
 
-Data_S = []
-Data_T = []
+Data_S = []  # 记录雪崩的规模的大小
+Data_T = []  # 记录雪崩的持续的时间
+Data_N = []  # 记录沙盒中沙子的多少
+
+t1 = time.time()
 
 # 开始实验
-
 for Add in range(1000000):
-    Avalanche = 0  # 初始化雪崩的规模为0
+    Avalanche = -1  # 初始化雪崩的规模为0
     Time = 0  # 初始化弛豫时间为0
 
     sandpile_x = random.randint(0, N-1)
@@ -102,11 +108,19 @@ for Add in range(1000000):
         else:
             Avalanche = Avalanche + 100 - Number
 
+    sandpile_number = 0
+    for i in range(N):
+        for j in range(N):
+            sandpile_number = sandpile_number + sandpile_A[i][j]
+    Data_N.append(sandpile_number)
+
     if Add < 200000:
         Data_S.append(Avalanche)
         Data_T.append(Time)
     else:
         break
+
+t2 = time.time()
 
 #  Data_S_sort = Counter()
 #  Data_T_sort = Counter()
@@ -122,10 +136,24 @@ for Add in range(1000000):
 arr_appear_1 = Counter(Data_S)
 arr_appear_2 = Counter(Data_T)
 
+# t3 = time.time()
+
+print("Sandpile Model Run Time: %ds" % int(t2 - t1))
+
+# print(t3 - t2)
+
 #  print(arr_appear_1,arr_appear_2)
 
 lists_1 = sorted(arr_appear_1.items())
 x, y = zip(*lists_1)
+
+plt.title(r"$Sandpile-Model:N \sim Sandpile_Number$")
+plt.xlabel(r"$N$")
+plt.ylabel(r"$Sandoile_Number$")
+plt.loglog(Data_N, '.b')
+# plt.plot(S,P /100000)
+plt.savefig("sandpile_model_N.png")
+plt.show()
 
 plt.title(r"$Sandpile-Model:D(S) \sim S^{- \beta }$")
 plt.xlabel(r"$S$")
