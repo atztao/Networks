@@ -5,9 +5,12 @@ Has Self-Organized Criticality.
 Author:ztao1991@gmail.com
 Date:2017/06/12
 Version:1.0
-""""colorscheme desert
-"set background =dark
+"""
 
+# TODO sandpile-model 将构成什么样的网络
+# TODO sandpile-model 实际上本质就是一个计算模型,但是这个模型的确和神经网络模型具有相同的构造性质，那么神经网络是否也具有幂次定律的性质
+# TODO 因而接下来需要将这个沙堆模型扩展为一个计算网络。
+# TODO 推广这个基本模型，假设这个之间的相互作用为运算，条件为激励函数，即机器学习的基本算法与这个模型是相关的，可以等价的。
 
 import random
 # import numpy as np
@@ -15,7 +18,6 @@ import matplotlib.pyplot as plt
 from collections import Counter
 # from timeit import timeit
 import time
-
 N = 10
 
 # 定义网格的大小和形状并初始化为0,SOC应该与网格的形状是无关的
@@ -136,10 +138,10 @@ t2 = time.time()
 arr_appear_1 = Counter(Data_S)
 arr_appear_2 = Counter(Data_T)
 
-# t3 = time.time()
 
 print("Sandpile Model Run Time: %ds" % int(t2 - t1))
 
+t3 = time.time()
 # print(t3 - t2)
 
 #  print(arr_appear_1,arr_appear_2)
@@ -171,3 +173,7 @@ plt.ylabel(r"$D(T)$")
 plt.loglog(x1, y1, '.b')
 plt.savefig("sandpile_model_T.png")
 plt.show()
+
+
+print("Sandpile Model Run Time: %ds" % int(t3 - t2))
+

@@ -10,6 +10,8 @@ c_average_list = []
 l_average_max = nx.average_shortest_path_length(
     nx.watts_strogatz_graph(1000, 10, 0))
 c_average_max = nx.average_clustering(nx.watts_strogatz_graph(1000, 10, 0))
+
+# 在对数坐标上等距离取点
 p = [1,
      0.00016,
      0.00028900000000000003,

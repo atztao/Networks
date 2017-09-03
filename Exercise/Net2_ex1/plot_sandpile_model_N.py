@@ -1,4 +1,4 @@
-import numpy as np
+  import numpy as np
 import matplotlib.pyplot as plt
 
 lines3 = open("sandpile-model_N.txt").readlines()
